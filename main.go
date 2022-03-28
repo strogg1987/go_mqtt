@@ -45,6 +45,9 @@ func main() {
 		if string(r) == "z" {
 			token := c.Publish("testtopic/1", 0, false, "Hello World")
 			token.Wait()
+			if token.Error() != nil {
+				fmt.Println(token.Error())
+			}
 		}
 	}
 }
