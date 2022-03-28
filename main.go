@@ -16,6 +16,11 @@ var f mqtt.MessageHandler = func(client mqtt.Client, msg mqtt.Message) {
 }
 
 func main() {
+	tty, err := tty.Open()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer tty.Close()
 	opts := mqtt.NewClientOptions().AddBroker("tcp://localhost:1883").SetClientID("go_test_client")
 	opts.SetKeepAlive(60 * time.Second)
 	// Set the message callback handler
@@ -30,11 +35,7 @@ func main() {
 		fmt.Println(token.Error())
 		os.Exit(1)
 	}
-	tty, err := tty.Open()
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer tty.Close()
+
 	for {
 		r, err := tty.ReadRune()
 		if err != nil {
@@ -46,7 +47,4 @@ func main() {
 			token.Wait()
 		}
 	}
-	// Disconnect
-	c.Disconnect(250)
-	time.Sleep(1 * time.Second)
 }
