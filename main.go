@@ -23,6 +23,8 @@ func main() {
 	defer tty.Close()
 	opts := mqtt.NewClientOptions().AddBroker("tcp://localhost:1883").SetClientID("go_test_client")
 	opts.SetKeepAlive(60 * time.Second)
+	//opts.SetUsername("****")
+	//opts.SetPassword("****")
 	// Set the message callback handler
 	opts.SetDefaultPublishHandler(f)
 	opts.SetPingTimeout(1 * time.Second)
